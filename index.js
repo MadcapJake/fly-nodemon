@@ -4,17 +4,20 @@ var server
 
 module.exports = function () {
   this.nodemon = function (opts) {
-    if (!server) {
-      server = nodemon(opts)
-        .on("start", function () {
-        this.log("nodemon started.")
-        })
-        .on("crash", function () {
-          this.error("script crashed for some reason")
-        })
-    } else {
-      server.emit("restart")
-    }
-    return this
+    return new Promise((resolve, reject) => {
+      if (!server) {
+        server = nodemon(opts)
+          .on("start", function () {
+            this.log("nodemon started.")
+          }.bind(this))
+          .on("crash", function () {
+            this.error("script crashed for some reason")
+            reject()
+          }.bind(this))
+      } else {
+        server.emit("restart")
+      }
+      resolve()
+    })
   }
 }
