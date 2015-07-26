@@ -23,6 +23,7 @@ npm install -D fly-nodemon
 
 ### Example
 
+#### JavaScript
 ```js
 const paths = {
   scripts: ["src/**/*.js", "!src/ignore/**/*.js"]
@@ -40,6 +41,25 @@ export function* restart () {
     }
   })
 }
+```
+
+#### Earl-Grey
+```earl-grey
+paths = {
+  scripts = {"src/**/*.eg", "!src/ignore/**/*.eg"}
+}
+
+provide: default, restart
+
+default = *-> yield this.watch(paths.scripts, {"restart"})
+
+restart = *-> yield this.nodemon with {
+  script = "src/app.eg"
+  events = {
+    restart = "google-chrome http://localhost:3000/"
+  }
+}
+
 ```
 
 # License
