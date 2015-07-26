@@ -15,5 +15,6 @@ module.exports = function () {
     } else {
       server.emit("restart")
     }
+    return this
   }
 }
