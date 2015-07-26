@@ -13,6 +13,13 @@ module.exports = function () {
             this.log("nodemon started.")
             resolve()
           }.bind(this))
+          .on("restart", function () {
+            this.log("nodemon restarting...")
+            resolve()
+          }.bind(this))
+          .on("quit", function () {
+            this.warn("nodemon quit.")
+          }.bind(this))
           .on("crash", function () {
             this.error("script crashed for some reason")
             reject()
