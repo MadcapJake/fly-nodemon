@@ -4,7 +4,7 @@
   </a>
 </div>
 
-> [Nodemon](https://github.com/MadcapJake/fly-nodemon) plugin for _[Fly][fly]_.
+> [Nodemon](http://nodemon.io/) plugin for _[Fly][fly]_.
 
 [![][fly-badge]][fly]
 [![npm package][npm-ver-link]][releases]
@@ -13,7 +13,7 @@
 [![][mit-badge]][mit]
 
 ## Usage
-> Check out the [documentation](PLUGIN_DOCUMENTATION) to see the available options.
+> Check out the [documentation][nodemon-docs] to see the available options.
 
 ### Install
 
@@ -24,8 +24,21 @@ npm install -D fly-nodemon
 ### Example
 
 ```js
+const paths = {
+  scripts: ["src/**/*.js", "!src/ignore/**/*.js"]
+}
+
 export default function* () {
-  yield ...
+  yield this.watch(paths.scripts, ["restart"])
+}
+
+export function* restart () {
+  yield this.nodemon({
+    script: "src/app.js",
+    events: {
+      restart: "google-chrome http://localhost:3000/"
+    }
+  })
 }
 ```
 
@@ -46,3 +59,4 @@ export default function* () {
 [dl-badge]:     http://img.shields.io/npm/dm/fly-nodemon.svg?style=flat-square
 [travis-link]:  https://travis-ci.org/MadcapJake/fly-nodemon
 [travis-badge]: http://img.shields.io/travis/MadcapJake/fly-nodemon.svg?style=flat-square
+[nodemon-docs]: https://github.com/remy/nodemon/blob/master/doc/requireable.md
