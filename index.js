@@ -1,7 +1,6 @@
+const nodemon = require("nodemon")
 module.exports = function () {
-  this.filter("transformerName", (source, options) => {
-    try {
-      return source
-     } catch (e) { throw e }
-  })
+  this.nodemon = function (opts) {
+    
+  }
 }
