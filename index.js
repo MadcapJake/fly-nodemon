@@ -1,6 +1,6 @@
 const nodemon = require("nodemon")
 
-var server = undefined
+var server
 
 module.exports = function () {
   this.nodemon = function (opts) {
