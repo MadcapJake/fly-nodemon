@@ -2,6 +2,7 @@ const nodemon = require("nodemon")
 
 var server
 var started = false
+var quit = false
 
 module.exports = function () {
   this.nodemon = function (opts) {
@@ -18,7 +19,12 @@ module.exports = function () {
             resolve()
           }.bind(this))
           .on("quit", function () {
-            this.warn("nodemon quit.")
+            if (!quit) {
+              console.log("")
+              this.warn("nodemon quit.")
+            }
+            quit = true
+            process.emit("SIGTERM")
           }.bind(this))
           .on("crash", function () {
             this.error("script crashed for some reason")
