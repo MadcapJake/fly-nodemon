@@ -21,7 +21,7 @@ module.exports = function () {
           .on("quit", function () {
             if (!quit) {
               console.log("")
-              this.warn("nodemon quit.")
+              this.alert("nodemon quit.")
             }
             quit = true
             process.emit("SIGTERM")
