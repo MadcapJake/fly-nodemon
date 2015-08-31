@@ -1,8 +1,8 @@
 const nodemon = require("nodemon")
 
-var server
-var started = false
-var quit = false
+var server,
+    started = false,
+    quit = false
 
 module.exports = function () {
   this.nodemon = function (opts) {
@@ -11,7 +11,9 @@ module.exports = function () {
       else {
         server = nodemon(opts)
           .on("start", function () {
-            this.log("nodemon started.")
+            this.log("nodemon " + (started ? "re" : "") + "started.")
+            started = true
+            quit = false
             resolve()
           }.bind(this))
           .on("restart", function () {
@@ -24,10 +26,15 @@ module.exports = function () {
               this.alert("nodemon quit.")
             }
             quit = true
+            started = false
             process.emit("SIGTERM")
+            resolve()
           }.bind(this))
           .on("crash", function () {
             this.error("script crashed for some reason")
+            quit = true
+            started = false
+            process.emit("SIGTERM")
             reject()
           }.bind(this))
       }
